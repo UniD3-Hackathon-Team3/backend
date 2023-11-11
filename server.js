@@ -10,7 +10,7 @@ async function server(){
         console.log('User connected');
         socket.on('disconnect', () => {
             console.log('User disconnected');
-          });
+        });
 
         socket.on('join', () =>{
             console.log('join: ', socket.id);
@@ -21,7 +21,7 @@ async function server(){
             console.log('Offer received:', socket.id);
             socket.to(roomName).emit('offer', offer);
         });
-        socket.on('answer', (answer) => {
+        socket.on('answer', (answer) => { // offer를 보낸 
             console.log('Answer received:', socket.id);
             socket.to(roomName).emit('answer', answer);
         });
@@ -29,6 +29,11 @@ async function server(){
             console.log('ICE candidate received:', socket.id);
             socket.to(roomName).emit('ice', ice);
         });
+
+        socket.on('iceConnectionStateChange', () => {
+            console.log('ICE Connection State:', socket.id, socket.conn.iceConnectionState);
+        });
+    
 
     });
     http.listen(3000, () => console.log('server open!'));
