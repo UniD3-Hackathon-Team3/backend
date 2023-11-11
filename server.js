@@ -10,7 +10,7 @@ async function server(){
         socket.on('disconnect', () => {
             console.log('User disconnected');
           });
-          
+
         socket.on('join', () =>{
             socket.join(roomName);
             socket.to(roomName).emit('joined');
@@ -24,7 +24,7 @@ async function server(){
             socket.to(roomName).emit('answer', answer);
         });
         socket.on('ice', (ice) => {
-            console.log('ICE candidate received:', candidate);
+            console.log('ICE candidate received:', ice);
             socket.to(roomName).emit('ice', ice);
         });
 
