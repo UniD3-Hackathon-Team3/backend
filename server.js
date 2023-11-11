@@ -6,17 +6,25 @@ async function server(){
     const io = new Server(http, {transports: ['websocket']});
     const roomName = 'dogfoot';
     io.on('connection', (socket) => {
-       socket.on('join', () =>{
-         socket.join(roomName);
-         socket.to(roomName).emit('joined');
-       });
-       socket.on('offer', (offer) => {
-           socket.to(roomName).emit('offer', offer);
+        console.log('User connected');
+        socket.on('disconnect', () => {
+            console.log('User disconnected');
+          });
+          
+        socket.on('join', () =>{
+            socket.join(roomName);
+            socket.to(roomName).emit('joined');
+        });
+        socket.on('offer', (offer) => {
+            console.log('Offer received:', offer);
+            socket.to(roomName).emit('offer', offer);
         });
         socket.on('answer', (answer) => {
+            console.log('Answer received:', answer);
             socket.to(roomName).emit('answer', answer);
         });
         socket.on('ice', (ice) => {
+            console.log('ICE candidate received:', candidate);
             socket.to(roomName).emit('ice', ice);
         });
 
