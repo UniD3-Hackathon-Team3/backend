@@ -5,6 +5,7 @@ async function server(){
     const http = require('http').createServer(app);
     const io = new Server(http, {transports: ['websocket']});
     const roomName = 'p2p';
+
     io.on('connection', (socket) => {
         console.log('User connected');
         socket.on('disconnect', () => {
@@ -12,6 +13,7 @@ async function server(){
           });
 
         socket.on('join', () =>{
+            console.log('join: ', socket.id);
             socket.join(roomName);
             socket.to(roomName).emit('joined');
         });
